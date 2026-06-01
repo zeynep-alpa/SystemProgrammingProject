@@ -1,0 +1,54 @@
+<program> ::= <statement_list>
+
+<statement_list> ::= <statement> <statement_list> | ε
+
+<statement> ::= <declaration>
+              | <assignment>
+              | <if_statement>
+              | <while_statement>
+              | <print_statement>
+
+<declaration> ::= int IDENTIFIER ;
+                | float IDENTIFIER ;
+
+<assignment> ::= IDENTIFIER = <expression> ;
+
+<if_statement> ::= if ( <expression> ) { <statement_list> }
+                 | if ( <expression> ) { <statement_list> }
+                   else { <statement_list> }
+
+<while_statement> ::= while ( <expression> ) { <statement_list> }
+
+<print_statement> ::= print ( STRING_LITERAL ) ;
+
+<expression> ::= <logical_or>
+
+<logical_or> ::= <logical_and>
+               | <logical_or> || <logical_and>
+
+<logical_and> ::= <equality>
+                | <logical_and> && <equality>
+
+<equality> ::= <comparison>
+             | <equality> == <comparison>
+             | <equality> != <comparison>
+
+<comparison> ::= <term>
+               | <comparison> < <term>
+               | <comparison> > <term>
+               | <comparison> <= <term>
+               | <comparison> >= <term>
+
+<term> ::= <factor>
+         | <term> + <factor>
+         | <term> - <factor>
+
+<factor> ::= <primary>
+           | <factor> * <primary>
+           | <factor> / <primary>
+
+<primary> ::= IDENTIFIER
+            | INTEGER_LITERAL
+            | FLOAT_LITERAL
+            | STRING_LITERAL
+            | ( <expression> )
