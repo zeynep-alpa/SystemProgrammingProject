@@ -1,7 +1,3 @@
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
-import re
-
 KEYWORDS = {"int", "float", "if", "else", "while", "print"}
 
 OPERATORS = {
@@ -225,39 +221,3 @@ class Lexer:
                     }
 
                     self.memory_address += 4
-
-
-if __name__ == "__main__":
-    code = """
-int x;
-int y;
-float result;
-
-// comment line
-x = 10;
-y = 3;
-result = x + y * 2;
-
-print("Result is large");
-"""
-
-    lexer = Lexer(code)
-    tokens, symbol_table, errors = lexer.tokenize()
-
-    print("TOKENS")
-    print("----------------")
-    for token in tokens:
-        print(token)
-
-    print("\nSYMBOL TABLE")
-    print("----------------")
-    for name, info in symbol_table.items():
-        print(name, info)
-
-    print("\nERRORS")
-    print("----------------")
-    if errors:
-        for error in errors:
-            print(error)
-    else:
-        print("No lexical errors.")

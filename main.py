@@ -1,4 +1,6 @@
 from lexer import Lexer
+from parser import Parser
+import json
 
 code = """
 int x;
@@ -10,26 +12,30 @@ x = 10;
 y = 3;
 result = x + y * 2;
 
-print("Result is large");
+if (result > 15) {
+    print("Result is large");
+} else {
+    print("Result is small");
+}
+
+while (x > 0) {
+    x = x - 1;
+}
 """
 
 lexer = Lexer(code)
+tokens, symbol_table, lexical_errors = lexer.tokenize()
 
-tokens, symbol_table, errors = lexer.tokenize()
+parser = Parser(tokens, symbol_table)
+ast, parser_errors = parser.parse()
 
 print("TOKENS")
-print("-" * 40)
-
+print("-" * 50)
 for token in tokens:
-    print(
-        f"Line: {token.line:<3} "
-        f"Value: {token.value:<15} "
-        f"Type: {token.token_type}"
-    )
+    print(f"Line: {token.line:<3} Value: {token.value:<20} Type: {token.token_type}")
 
 print("\nSYMBOL TABLE")
-print("-" * 40)
-
+print("-" * 50)
 for name, info in symbol_table.items():
     print(
         f"Name: {name:<10} "
@@ -38,11 +44,16 @@ for name, info in symbol_table.items():
         f"Memory: {info['memory']}"
     )
 
-print("\nERRORS")
-print("-" * 40)
+print("\nAST")
+print("-" * 50)
+print(json.dumps(ast, indent=4))
 
-if errors:
-    for error in errors:
+print("\nERRORS")
+print("-" * 50)
+all_errors = lexical_errors + parser_errors
+
+if all_errors:
+    for error in all_errors:
         print(error)
 else:
-    print("No lexical errors found.")
+    print("No errors found.")
